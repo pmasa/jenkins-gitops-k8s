@@ -16,11 +16,11 @@ pipeline {
           sh "git clone https://github.com/pmasa/jenkins-gitops-k8s.git"
           sh "cd jenkins-gitops-k8s"
           dir('jenkins-gitops-k8s') {
-            sh "sed -i 's/image.*/image: ngnix:${BUILD_NUMBER}/g' deployment.yaml"
+            sh "sed -i 's/image.*/image: ngnix:10/g' deployment.yaml"
             sh "git config user.email devopsmas@gmail.com"
             sh "git config user.name devops"
             sh "git add . "
-            sh "git commit -m 'Update image version to: ${BUILD_NUMBER}'"
+            sh "git commit -m 'Update image version to: 10'"
             sh"git push https://pmasa:Tranchin@2024@github.com/pmasa/jenkins-gitops-k8s.git HEAD:master -f"
           }
         }
