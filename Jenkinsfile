@@ -1,24 +1,32 @@
-node {
-    def app
+pipeline {
+	
+	environment {
+    imagerepo = 'limarktest'
+    imagename = 'nodejs-docker'
+	}
 
-    stage('Clone repository') {
-        checkout scm
-    }
-
-    stage('Update GIT') {
-        script {
-            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'Tranchin@2024', usernameVariable: 'pmasa')]) {
-                    sh "git config user.email devopsmas@gmail.com"
-                    sh "git config user.name Pedro Masa"
-                    sh "cat deployment.yaml"
-                    sh "sed -i 's+image.*+image: ngnix+g' deployment.yaml"
-                    sh "cat deployment.yaml"
-                    sh "git add ."
-                    sh "git commit -m 'Done by Jenkins Job changemanifest: ${env.BUILD_NUMBER}'"
-                    sh "git push https://pmasa:Tranchin@2024@github.com/pmasa/jenkins-gitops-k8s.git HEAD:main"
-                }
-            }
+	agent any
+	
+	stages {
+    
+    stage('Update Manifest') {
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'GitHubCredentials', passwordVariable: 'Tranchin@2024', usernameVariable: 'pmasa')]) {
+          sh "rm -rf jenkins-gitops-k8s"
+          sh "git clone https://github.com/pmasa/jenkins-gitops-k8s.git"
+          sh "cd jenkins-gitops-k8s"
+          dir('jenkins-gitops-k8s') {
+            sh "sed -i 's/image.*/image: ngnix:${BUILD_NUMBER}/g' deployment.yaml"
+            sh "git config user.email devopsmas@gmail.com"
+            sh "git config user.name devops"
+            sh "git add . "
+            sh "git commit -m 'Update image version to: ${BUILD_NUMBER}'"
+            sh"git push https://pmasa:Tranchin@2024@github.com/pmasa/jenkins-gitops-k8s.git HEAD:master -f"
+          }
         }
+      }
     }
+      
+	}
+  
 }
