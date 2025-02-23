@@ -14,7 +14,6 @@ apiVersion: apps/v1
       spec:
         containers:
         - name: my-webapp
-          #image: nginx:latest
           image: nginx:{{TAG}}
           ports:
           - containerPort: 80
