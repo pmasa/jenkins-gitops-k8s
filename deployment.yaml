@@ -14,6 +14,6 @@ apiVersion: apps/v1
       spec:
         containers:
         - name: my-webapp
-          image: pedromasa/webapp:43
+          image: nginx:43
           ports:
           - containerPort: 80
