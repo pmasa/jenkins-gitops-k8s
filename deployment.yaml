@@ -1,19 +1,19 @@
   apiVersion: apps/v1
   kind: Deployment
   metadata:
-    name: my-webapp
+    name: my-nginxapp
   spec:
     replicas: 3
     selector:
       matchLabels:
-        app: my-webapp
+        app: my-nginxapp
     template:
       metadata:
         labels:
-          app: my-webapp
+          app: my-nginxapp
       spec:
         containers:
-        - name: my-webapp
+        - name: my-nginxapp
           image: pedromasa/webapp:41
           ports:
           - containerPort: 80
