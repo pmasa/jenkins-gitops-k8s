@@ -16,4 +16,4 @@
         - name: my-nginxapp
           image: pedromasa/webapp:48
           ports:
-          - containerPort: 80
+          - containerPort: 88
