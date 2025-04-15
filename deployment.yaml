@@ -14,6 +14,6 @@
       spec:
         containers:
         - name: my-nginxapp
-          image: pedromasa/webapp:2
+          image: pedromasa/webapp:52
           ports:
           - containerPort: 88
